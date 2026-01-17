@@ -1,0 +1,58 @@
+# Node/JS geral
+node_modules/
+logs/
+*.log
+*.log.*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Sistemas Operacionais
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editores/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Cobertura/Testes
+coverage/
+.nyc_output/
+
+# Saídas de build comuns
+build/
+dist/
+out/
+
+# Next.js (inclui pasta web/.next)
+.next/
+.vercel/
+
+# Cache
+.eslintcache
+.cache/
+.turbo/
+turbo/
+
+# Env locais (mantém .env.example)
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# Temporários
+tmp/
+temp/
+
+# Observações:
+# - Não ignore package-lock.json: manter versionado.
+# - Não ignore .github (configurações e instruções do Copilot).
+# - Assets em public/ devem ser versionados (logos e imagens).
