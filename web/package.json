@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "prestart": "next build",
-    "start": "node .next/standalone/server.js",
-    "start:standalone": "node .next/standalone/server.js",
+    "preview": "npx serve -s out -l 3000",
     "lint": "eslint"
   },
   "dependencies": {
