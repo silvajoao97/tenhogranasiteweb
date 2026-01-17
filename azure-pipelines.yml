@@ -1,0 +1,68 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  NPM_CONFIG_CACHE: $(Pipeline.Workspace)/.npm
+
+steps:
+- task: NodeTool@0
+  displayName: 'Use Node.js 20.x'
+  inputs:
+    versionSpec: '20.x'
+
+- task: Cache@2
+  displayName: 'Cache NPM'
+  inputs:
+    key: 'npm | "$(Agent.OS)" | web/package-lock.json'
+    path: '$(NPM_CONFIG_CACHE)'
+
+- task: Npm@1
+  displayName: 'npm ci (web)'
+  inputs:
+    command: 'ci'
+    workingDir: 'web'
+
+- task: Npm@1
+  displayName: 'npm run build (web)'
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
+    workingDir: 'web'
+
+# Artefato mínimo (Next standalone)
+- task: CopyFiles@2
+  displayName: 'Copy .next/standalone'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/web/.next/standalone'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/app'
+
+- task: CopyFiles@2
+  displayName: 'Copy .next/static'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/web/.next/static'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/app/.next/static'
+
+- task: CopyFiles@2
+  displayName: 'Copy public'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/web/public'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/app/public'
+
+- task: CopyFiles@2
+  displayName: 'Copy package files'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/web'
+    Contents: 'package.json;package-lock.json'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/app'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifact (tenhograna-web)'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/app'
+    artifactName: 'tenhograna-web'
