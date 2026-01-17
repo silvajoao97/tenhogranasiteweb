@@ -1,5 +1,6 @@
 # Node/JS geral
-node_modules/
+# Node/JS geral
+**/node_modules/
 logs/
 *.log
 *.log.*
@@ -21,22 +22,28 @@ Desktop.ini
 *.tsbuildinfo
 
 # Cobertura/Testes
+# Cobertura/Testes
 coverage/
+**/coverage/
 .nyc_output/
 
+# Saídas de build comuns
 # Saídas de build comuns
 build/
 dist/
 out/
 
 # Next.js (inclui pasta web/.next)
-.next/
-.vercel/
+# Next.js (qualquer subpasta)
+**/.next/
+web/out/
+**/.vercel/
 
 # Cache
+# Cache
 .eslintcache
-.cache/
-.turbo/
+**/.cache/
+**/.turbo/
 turbo/
 
 # Env locais (mantém .env.example)
