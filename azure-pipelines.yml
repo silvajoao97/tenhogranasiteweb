@@ -32,38 +32,25 @@ steps:
     customCommand: 'run build'
     workingDir: 'web'
 
-# Artefato mínimo (Next standalone)
+# Artefato estático (Next export → web/out)
 - task: CopyFiles@2
-  displayName: 'Copy .next/standalone'
+  displayName: 'Copy web/out (site estático)'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/web/.next/standalone'
+    SourceFolder: '$(Build.SourcesDirectory)/web/out'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/app'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/site'
 
-- task: CopyFiles@2
-  displayName: 'Copy .next/static'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/web/.next/static'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/app/.next/static'
-
-- task: CopyFiles@2
-  displayName: 'Copy public'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/web/public'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/app/public'
-
-- task: CopyFiles@2
-  displayName: 'Copy package files'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/web'
-    Contents: 'package.json;package-lock.json'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/app'
+# Diagnóstico: listar conteúdo do diretório de staging antes do publish
+- script: |
+    echo "Staging dir: $(Build.ArtifactStagingDirectory)"
+    ls -la $(Build.ArtifactStagingDirectory)
+    echo "\nConteúdo de $(Build.ArtifactStagingDirectory)/site:"
+    ls -la $(Build.ArtifactStagingDirectory)/site || echo "Diretório 'site' não encontrado"
+  displayName: 'Listar conteúdo do artifact staging'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifact (tenhograna-web)'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/app'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/site'
     ArtifactName: 'tenhograna-web'
     publishLocation: 'Container'
