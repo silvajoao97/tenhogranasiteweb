@@ -64,5 +64,6 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifact (tenhograna-web)'
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/app'
-    artifactName: 'tenhograna-web'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/app'
+    ArtifactName: 'tenhograna-web'
+    publishLocation: 'Container'
